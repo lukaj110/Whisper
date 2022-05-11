@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataManager.Models
+namespace Whisper.DataManager.Models
 {
     public enum ContentType
     {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DataManager.Models
+namespace Whisper.DataManager.Models
 {
     public partial class WhisperContext : DbContext
     {

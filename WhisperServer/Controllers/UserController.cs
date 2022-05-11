@@ -1,9 +1,9 @@
-﻿using DataManager.Models;
+﻿using Whisper.DataManager.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebAPI.Controllers
+namespace Whisper.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

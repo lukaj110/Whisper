@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DataManager.Models
+namespace Whisper.DataManager.Models
 {
     public partial class User
     {
