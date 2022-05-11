@@ -1,0 +1,67 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "WhisperContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": "Models",
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "DataManager",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "public.User_Group",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Message_Attachment",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Attachment",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.User",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Channel",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Group",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Message",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.User_Messages",
+         "ObjectType": 3
+      }
+   ],
+   "UiHint": "Whisper",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
