@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WhisperAPI\DataManager.csproj" />
+    <ProjectReference Include="..\DataManager\DataManager.csproj" />
   </ItemGroup>
 
 </Project>
