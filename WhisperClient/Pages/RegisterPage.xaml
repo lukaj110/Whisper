@@ -12,55 +12,55 @@
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto"
       FontFamily="{DynamicResource MaterialDesignFont}"
-      d:DesignHeight="600"
       d:DesignWidth="400"
       Title="RegisterPage">
 
     <Grid>
-        <StackPanel VerticalAlignment="Center" Margin="20">
+        <StackPanel VerticalAlignment="Center"
+                    Margin="20">
             <TextBlock Style="{DynamicResource MaterialDesignTextBlock}"
                        HorizontalAlignment="Center"
                        FontSize="18">Create a new account</TextBlock>
 
-            <TextBox Margin="0,20,0,0"
+            <TextBox Margin="0,15,0,0"
                      x:Name="txtUsername"
                      Width="300"
                      FontSize="18"
                      materialDesign:HintAssist.Hint="Username"
                      BorderThickness="2"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
-                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-            
-            <TextBox Margin="0,20,0,0"
+                     Style="{StaticResource MaterialDesignFilledTextBox}" />
+
+            <TextBox Margin="0,15,0,0"
                      x:Name="txtEmail"
                      Width="300"
                      FontSize="18"
                      materialDesign:HintAssist.Hint="Email"
                      BorderThickness="2"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
-                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                     Style="{StaticResource MaterialDesignFilledTextBox}" />
 
 
-            <PasswordBox Margin="0,20,0,0"
+            <PasswordBox Margin="0,15,0,0"
                          x:Name="txtPassword"
                          Width="300"
                          FontSize="18"
                          materialDesign:HintAssist.Hint="Password"
                          BorderThickness="2"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
-                         Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                         Style="{StaticResource MaterialDesignFilledPasswordBox}" />
 
-            <PasswordBox Margin="0,20,0,0"
+            <PasswordBox Margin="0,15,0,0"
                          x:Name="txtPasswordConfirm"
                          Width="300"
                          FontSize="18"
                          materialDesign:HintAssist.Hint="Confirm Password"
                          BorderThickness="2"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
-                         Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                         Style="{StaticResource MaterialDesignFilledPasswordBox}" />
 
 
-            <Button  Margin="0,20,0,0"
+            <Button  Margin="0,15,0,0"
                      x:Name="registerButton"
                      Style="{StaticResource MaterialDesignFlatMidBgButton}"
                      materialDesign:ShadowAssist.ShadowDepth="Depth0"
@@ -72,7 +72,7 @@
                      Click="registerButton_Click"></Button>
 
 
-            <Button Margin="0,20,0,0"
+            <Button Margin="0,15,0,0"
                     x:Name="loginButton"
                     Style="{StaticResource MaterialDesignFlatButton}"
                     materialDesign:ShadowAssist.ShadowDepth="Depth0"

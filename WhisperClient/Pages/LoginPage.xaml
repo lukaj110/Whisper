@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:WhisperClient.Pages"
       mc:Ignorable="d"
-      d:DesignHeight="600"
       d:DesignWidth="400"
       Title="LoginPage"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -26,20 +25,20 @@
                      x:Name="txtEmail"
                      Width="300"
                      FontSize="18"
-                     materialDesign:HintAssist.Hint="Enter Email"
+                     materialDesign:HintAssist.Hint="Email"
                      BorderThickness="2"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
-                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                     Style="{StaticResource MaterialDesignFilledTextBox}" />
 
 
             <PasswordBox Margin="0,20,0,0"
                          x:Name="txtPassword"
                          Width="300"
                          FontSize="18"
-                         materialDesign:HintAssist.Hint="Enter Password"
+                         materialDesign:HintAssist.Hint="Password"
                          BorderThickness="2"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
-                         Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                         Style="{StaticResource MaterialDesignFilledPasswordBox}" />
 
 
             <Button  Margin="0,20,0,0"

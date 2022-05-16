@@ -13,35 +13,49 @@
         TextOptions.TextRenderingMode="Auto"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="LandingWindow"
-        Height="650"
+        Height="auto"
+        SizeToContent="Height"
         Width="400"
         Background="{x:Null}"
         AllowsTransparency="True"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
     <materialDesign:Card x:Name="card"
                          UniformCornerRadius="15"
-                         Margin="15"
-                         materialDesign:ShadowAssist.ShadowDepth="Depth4">
+                         Margin="30"
+                         materialDesign:ShadowAssist.ShadowDepth="Depth5">
+
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <materialDesign:Card Grid.Row="0"
+            <Button x:Name="exitButton"
+                    Content="X"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    FontSize="16"
+                    materialDesign:ButtonAssist.CornerRadius="0,15,0,0"
+                    Click="exitButton_Click" />
+
+            <materialDesign:Card Grid.Row="1"
                                  Background="{x:Null}"
                                  MouseLeftButtonDown="Card_MouseLeftButtonDown">
-                <Image Source="/Whisper.png" Margin="25"/>
-                
+                <Image Source="/Whisper.png"
+                       Margin="25,0,25,25" />
+
             </materialDesign:Card>
 
 
 
             <Frame x:Name="landingFrame"
-                   Grid.Row="1"
+                   Grid.Row="0" Margin="0,10,0,0"
                    NavigationUIVisibility="Hidden"
-                   Source="/Pages/LoginPage.xaml"></Frame>
+                   Source="/Pages/LoginPage.xaml"
+                   VerticalAlignment="Bottom"></Frame>
         </Grid>
 
     </materialDesign:Card>
