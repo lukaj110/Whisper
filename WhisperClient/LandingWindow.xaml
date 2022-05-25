@@ -45,7 +45,7 @@
                                  Background="{x:Null}"
                                  MouseLeftButtonDown="Card_MouseLeftButtonDown">
                 <Image Source="/Whisper.png"
-                       Margin="25,0,25,25" />
+                       Margin="25,0,25,25" Cursor="SizeAll" />
 
             </materialDesign:Card>
 
