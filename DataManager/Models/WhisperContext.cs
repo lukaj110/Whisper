@@ -26,6 +26,8 @@ namespace Whisper.DataManager.Models
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserMessages> UserMessages { get; set; }
 
+        public User FromUsername(string Username) => User.Include(e=>e.Group).Single(e => e.Username == Username);
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

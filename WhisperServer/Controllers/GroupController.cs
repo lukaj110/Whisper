@@ -12,7 +12,7 @@ namespace Whisper.Server.Controllers
     {
         private readonly WhisperContext _context;
 
-        public GroupController() => _context = new WhisperContext();
+        public GroupController(WhisperContext whisperContext) => _context = whisperContext;
 
         [HttpGet]
         public ActionResult<IEnumerable<Group>> GetUsers()

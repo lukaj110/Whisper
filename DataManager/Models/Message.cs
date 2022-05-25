@@ -14,7 +14,7 @@ namespace Whisper.DataManager.Models
 
         public int MessageId { get; set; }
         public string Content { get; set; }
-        public DateTime? SentAt { get; set; }
+        public DateTime SentAt { get; set; }
         public string Checksum { get; set; }
         public int Sender { get; set; }
         public long ChannelId { get; set; }

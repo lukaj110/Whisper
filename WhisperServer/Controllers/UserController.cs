@@ -10,7 +10,7 @@ namespace Whisper.Server.Controllers
     {
         private readonly WhisperContext _context;
 
-        public UserController() => _context = new WhisperContext();
+        public UserController(WhisperContext whisperContext) => _context = whisperContext;
 
         [HttpGet]
         public ActionResult<IEnumerable<User>> GetUsers()

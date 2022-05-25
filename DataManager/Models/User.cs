@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Whisper.DataManager.Models
 {
@@ -14,17 +15,25 @@ namespace Whisper.DataManager.Models
             Group = new HashSet<Group>();
         }
 
+        [JsonIgnore]
         public int UserId { get; set; }
+        [JsonIgnore]
         public string Email { get; set; }
         public string Username { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
+        [JsonIgnore]
         public string Salt { get; set; }
         public string PubKey { get; set; }
-        public long? ChannelId { get; set; }
+        public long ChannelId { get; set; }
 
+        [JsonIgnore]
         public virtual Channel Channel { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Group> OwnerGroup { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Message> Message { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Group> Group { get; set; }
     }
 }

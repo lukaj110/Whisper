@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Whisper.DataManager.Models
 {
@@ -14,11 +15,14 @@ namespace Whisper.DataManager.Models
 
         public int GroupId { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public int Owner { get; set; }
-        public long? ChannelId { get; set; }
-
+        public long ChannelId { get; set; }
+        [JsonIgnore]
         public virtual Channel Channel { get; set; }
+        [JsonIgnore]
         public virtual User OwnerNavigation { get; set; }
+        [JsonIgnore]
         public virtual ICollection<User> User { get; set; }
     }
 }

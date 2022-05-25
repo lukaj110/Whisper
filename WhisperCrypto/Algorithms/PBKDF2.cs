@@ -9,11 +9,11 @@ namespace WhisperCrypto.Algorithms
 {
     public static class PBKDF2
     {
-        public const int SALT_SIZE = 64;
-        public const int HASH_SIZE = 64;
-        public const int ITERATIONS = 100000;
+        private const int SALT_SIZE = 64;
+        private const int HASH_SIZE = 64;
+        private const int ITERATIONS = 100000;
 
-        public static string HashPassword(string password, string salt)
+        private static string HashPassword(string password, string salt)
         {
             string[] pass = new string[2] 
             { password.Substring(0, password.Length / 2), 
