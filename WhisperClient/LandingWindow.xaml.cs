@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WhisperClient
+namespace Whisper.Client
 {
     /// <summary>
     /// Interaction logic for LandingWindow.xaml

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WhisperClient.Pages
+namespace Whisper.Client.Pages
 {
     /// <summary>
     /// Interaction logic for RegisterPage.xaml

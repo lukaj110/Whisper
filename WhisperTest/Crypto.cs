@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using WhisperCrypto.Algorithms;
+using Whisper.Crypto.Algorithms;
 
-namespace WhisperTest
+namespace Whisper.Test
 {
     [TestClass]
     public class Crypto

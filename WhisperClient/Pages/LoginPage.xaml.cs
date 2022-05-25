@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WhisperClient.Pages
+namespace Whisper.Client.Pages
 {
     /// <summary>
     /// Interaction logic for LoginPage.xaml

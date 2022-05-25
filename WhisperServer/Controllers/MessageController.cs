@@ -5,7 +5,7 @@ using System.Net.WebSockets;
 using Whisper.DataManager.Models;
 using Whisper.DataManager.RequestModels;
 
-namespace WhisperServer.Controllers
+namespace Whisper.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -47,11 +47,11 @@ namespace WhisperServer.Controllers
                 SentAt = DateTime.UtcNow
             };
 
-            var msg = _context.Message.Add(newMessage);
+            var msg = _context.Message.Add(newMessage).Entity;
 
             _context.SaveChanges();
 
-            return Ok(msg.Entity);
+            return Ok(new { msg.Content, msg.SentAt, msg.Checksum, msg.Sender, msg.ChannelId });
         }
 
         [HttpGet("{channelId}")]
@@ -69,8 +69,8 @@ namespace WhisperServer.Controllers
             if (messageGroup != null)
                 return Ok(_context.Message.Where(e => e.ChannelId == channelId));
 
-            return Ok(_context.Message.Where(e => 
-            (e.Sender == user.UserId && e.ChannelId == channelId) || 
+            return Ok(_context.Message.Where(e =>
+            (e.Sender == user.UserId && e.ChannelId == channelId) ||
             (e.Sender == messageUser.UserId && e.ChannelId == user.ChannelId)));
         }
     }

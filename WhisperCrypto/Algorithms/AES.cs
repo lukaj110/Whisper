@@ -5,7 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace WhisperCrypto.Algorithms
+namespace Whisper.Crypto.Algorithms
 {
     internal class AES256
     {

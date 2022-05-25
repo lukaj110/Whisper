@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace WhisperCrypto.Algorithms
+namespace Whisper.Crypto.Algorithms
 {
     public class RSA4096
     {

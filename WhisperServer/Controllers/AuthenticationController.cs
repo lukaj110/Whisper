@@ -7,9 +7,9 @@ using System.Security.Claims;
 using System.Text;
 using Whisper.DataManager.Models;
 using Whisper.DataManager.RequestModels;
-using WhisperCrypto.Algorithms;
+using Whisper.Crypto.Algorithms;
 
-namespace WhisperServer.Controllers
+namespace Whisper.Server.Controllers
 {
     [Route("api/auth")]
     [ApiController]

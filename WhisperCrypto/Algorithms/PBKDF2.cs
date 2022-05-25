@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WhisperCrypto.Algorithms
+namespace Whisper.Crypto.Algorithms
 {
     public static class PBKDF2
     {
@@ -13,7 +13,7 @@ namespace WhisperCrypto.Algorithms
         private const int HASH_SIZE = 64;
         private const int ITERATIONS = 100000;
 
-        private static string HashPassword(string password, string salt)
+        public static string HashPassword(string password, string salt)
         {
             string[] pass = new string[2] 
             { password.Substring(0, password.Length / 2), 
