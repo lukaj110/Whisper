@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Net.WebSockets;
 using System.Text;
 using Whisper.DataManager.Models;
 
@@ -20,7 +22,8 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options => {
+.AddJwtBearer(options =>
+{
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -40,6 +43,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddSingleton<List<WebSocket>>();
+
 builder.Services.AddDbContext<WhisperContext>();
 
 var app = builder.Build();
@@ -58,6 +63,13 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
+
+var webSocketOptions = new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(1)
+};
+
+app.UseWebSockets(webSocketOptions);
 
 app.MapControllers();
 

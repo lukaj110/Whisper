@@ -1,5 +1,4 @@
-﻿using DataManager.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Whisper.DataManager.Models;
+using Whisper.DataManager.RequestModels;
 using WhisperCrypto.Algorithms;
 
 namespace WhisperServer.Controllers

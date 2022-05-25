@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataManager.Models
+namespace Whisper.DataManager.RequestModels
 {
     public class RegisterCredential : BaseCredential
     {

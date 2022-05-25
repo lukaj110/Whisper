@@ -13,11 +13,11 @@ namespace WhisperServer.Controllers
         private readonly WhisperContext _context;
         public ChatController(WhisperContext whisperContext) => _context = whisperContext;
 
-        [HttpGet("chat")]
+        [HttpGet("active")]
         [Authorize]
-        public IActionResult GetActiveChats()
+        public ActionResult GetActiveChats()
         {
-            var currentUser = _context.FromUsername(User.Identity.Name);
+            var currentUser = _context.FromIdentity(HttpContext.User);
 
             var sentToUsers = _context.Message.Where(e => e.Sender == currentUser.UserId)
                                               .Select(e => e.ChannelId).Distinct();
@@ -28,11 +28,12 @@ namespace WhisperServer.Controllers
                                             .Select(e => e.SenderNavigation.ChannelId).Distinct();
 
 
-            return Ok(_context.User.Where(e => sentToUsers.Contains(e.ChannelId) || receivedFromUsers.Contains(e.ChannelId)));
+            return Ok(_context.User.Where(e => sentToUsers.Contains(e.ChannelId) || receivedFromUsers.Contains(e.ChannelId))
+                .Select(user => new { user.UserId, user.Email, user.Username, user.PubKey, user.ChannelId }));
         }
 
-        [HttpGet("groupchat")]
+        [HttpGet("activegroups")]
         [Authorize]
-        public IActionResult GetActiveGroups() => Ok(_context.FromUsername(User.Identity.Name).Group);
+        public ActionResult GetActiveGroups() => Ok(_context.FromIdentity(HttpContext.User).Group);
     }
 }
