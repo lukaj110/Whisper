@@ -28,7 +28,7 @@ namespace Whisper.Server.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] BaseCredential userCredential)
         {
-            var user = _context.User.FirstOrDefault(e => e.Username == userCredential.Username);
+            var user = _context.User.FirstOrDefault(e => e.Username.ToUpper() == userCredential.Username.ToUpper());
 
             if (user == null)
                 return NotFound();
@@ -47,8 +47,8 @@ namespace Whisper.Server.Controllers
                 string.IsNullOrWhiteSpace(user.Password) || 
                 string.IsNullOrWhiteSpace(user.Email)) return BadRequest();
 
-            if (_context.User.Any(e => e.Username == user.Username || e.Email == user.Email))
-                return BadRequest();
+            if (_context.User.Any(e => e.Username.ToUpper() == user.Username.ToUpper() || e.Email.ToUpper() == user.Email.ToUpper()))
+                return Forbid();
 
             var pass = PBKDF2.HashNewPassword(user.Password);
 

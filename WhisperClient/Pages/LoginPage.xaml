@@ -10,25 +10,26 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
       TextElement.FontWeight="Regular"
-      TextElement.FontSize="13"
+      TextElement.FontSize="14"
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto"
       FontFamily="{DynamicResource MaterialDesignFont}">
-
     <Grid>
-        <StackPanel VerticalAlignment="Center" Margin="20">
-            <TextBlock Style="{DynamicResource MaterialDesignTextBlock}" 
+        <StackPanel VerticalAlignment="Center"
+                    Margin="20, 15, 20, 20">
+            <TextBlock Style="{DynamicResource MaterialDesignTextBlock}"
                        HorizontalAlignment="Center"
                        FontSize="18">Log in to your existing account</TextBlock>
 
             <TextBox Margin="0,20,0,0"
-                     x:Name="txtEmail"
+                     x:Name="txtUsername"
                      Width="300"
                      FontSize="18"
-                     materialDesign:HintAssist.Hint="Email"
+                     materialDesign:HintAssist.Hint="Username"
                      BorderThickness="2"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
-                     Style="{StaticResource MaterialDesignFilledTextBox}" />
+                     Style="{StaticResource MaterialDesignFilledTextBox}"
+                     KeyDown="textBox_KeyDown" />
 
 
             <PasswordBox Margin="0,20,0,0"
@@ -38,23 +39,25 @@
                          materialDesign:HintAssist.Hint="Password"
                          BorderThickness="2"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
-                         Style="{StaticResource MaterialDesignFilledPasswordBox}" />
+                         Style="{StaticResource MaterialDesignFilledPasswordBox}"
+                         KeyDown="textBox_KeyDown" />
 
 
             <Button Margin="0,20,0,0"
                     x:Name="loginButton"
-                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                    Style="{StaticResource MaterialDesignFlatLightBgButton}"
                     materialDesign:ShadowAssist.ShadowDepth="Depth0"
                     Height="50"
                     Width="300"
                     materialDesign:ButtonAssist.CornerRadius="10"
                     FontSize="18"
-                    Content="Log in"></Button>
+                    Content="Log in"
+                    Click="loginButton_Click"></Button>
 
 
             <Button Margin="0,20,0,0"
                     x:Name="registerButton"
-                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Style="{StaticResource MaterialDesignOutlinedLightButton}"
                     materialDesign:ShadowAssist.ShadowDepth="Depth0"
                     Height="50"
                     Width="300"
@@ -62,6 +65,7 @@
                     FontSize="18"
                     Content="Create Account"
                     Click="registerButton_Click"></Button>
+            <ProgressBar x:Name="progressBar" Margin="0, 20, 0 ,0" IsIndeterminate="True" Visibility="Collapsed" />
         </StackPanel>
     </Grid>
 </Page>

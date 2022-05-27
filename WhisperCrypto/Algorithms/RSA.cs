@@ -26,6 +26,12 @@ namespace Whisper.Crypto.Algorithms
             rsa.ImportSubjectPublicKeyInfo(Convert.FromBase64String(pubKey), out _);
         }
 
+        public void ExportKeys(string path) 
+            => File.WriteAllText(Path.Combine(path, "Private.whisper"), PrivateKey);
+
+        public void ImportKeys(string path)
+            => ImportPrivateKey(File.ReadAllText(Path.Combine(path, "Private.whisper")));
+
         public string Encrypt(string message)
         {
             byte[] messageBytes = Encoding.UTF8.GetBytes(message);
