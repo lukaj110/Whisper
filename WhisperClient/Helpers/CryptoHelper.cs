@@ -5,29 +5,30 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Whisper.Crypto.Algorithms;
+using System.Security.Cryptography;
 
 namespace Whisper.Client.Helpers
 {
     public static class CryptoHelper
-    {
-        public static RSA4096 InitializeKeys()
+{
+        public static DiffieHellman InitializeKeys()
         {
-            var rsa = new RSA4096();
+            var dh = new DiffieHellman();
 
             var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Whisper");
 
-            var filePath = Path.Combine(path, "Private.whisper");
+            var filePath = Path.Combine(path, "DH.whisper");
 
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
 
-            if (!File.Exists(filePath)) rsa.ExportKeys(path);
+            if (!File.Exists(filePath)) dh.ExportKeys(path);
 
             else
             {
-                rsa.ImportKeys(path);
+                dh.ImportKeys(path);
             }
 
-            return rsa;
+            return dh;
         }
     }
 }

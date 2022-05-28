@@ -39,7 +39,7 @@ namespace Whisper.Client.Pages
 
             progressBar.Visibility = Visibility.Visible;
 
-            var registerStatus = await mainWindow.apiHelper.Register(txtEmail.Text, txtUsername.Text, txtPassword.Password, mainWindow.apiHelper.rsa.PublicKey);
+            var registerStatus = await mainWindow.apiHelper.Register(txtEmail.Text, txtUsername.Text, txtPassword.Password, mainWindow.apiHelper.dh.PublicKey);
 
             switch (registerStatus)
             {
@@ -54,9 +54,9 @@ namespace Whisper.Client.Pages
                     break;
                 case StatusCode.OK:
                     mainWindow.ShowSnackbar("Registered.");
+                    this.NavigationService.Navigate(new Uri("Pages/MainPage.xaml", UriKind.Relative));
                     break;
                 default:
-                    MessageBox.Show(registerStatus.ToString());
                     mainWindow.ShowSnackbar("Error while registering.");
                     break;
             }
@@ -72,7 +72,9 @@ namespace Whisper.Client.Pages
         }
         private void textBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && this.IsEnabled) loginButton_Click(sender, e);
+            if (e.Key == Key.Enter && this.IsEnabled) registerButton_Click(sender, e);
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) => txtUsername.Focus();
     }
 }

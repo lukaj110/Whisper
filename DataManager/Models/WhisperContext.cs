@@ -26,7 +26,7 @@ namespace Whisper.DataManager.Models
         public virtual DbSet<UserMessages> UserMessages { get; set; }
 
         public User FromIdentity(ClaimsPrincipal identity) 
-            => User.Include(e => e.Group).Single(e => e.Username == identity.Claims.First().Value);
+            => User.Include(e => e.Group).Single(e => e.Username.ToUpper() == identity.Claims.First().Value.ToUpper());
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

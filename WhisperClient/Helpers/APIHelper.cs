@@ -20,7 +20,9 @@ namespace Whisper.Client.Helpers
 
         private HttpClient client;
 
-        public RSA4096 rsa;
+        public DiffieHellman dh;
+
+        private JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         public APIHelper(string baseUrl)
         {
@@ -28,7 +30,7 @@ namespace Whisper.Client.Helpers
 
             this.baseUrl = baseUrl;
 
-            rsa = CryptoHelper.InitializeKeys();
+            dh = CryptoHelper.InitializeKeys();
         }
 
         public async Task<StatusCode> Register(string email, string username, string password, string pubKey)
@@ -51,11 +53,6 @@ namespace Whisper.Client.Helpers
             {
                 return StatusCode.ConnectionRefused;
             }
-        }
-
-        public async Task<StatusCode> AddChat(string text)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<StatusCode> Login(string username, string password)
@@ -88,18 +85,53 @@ namespace Whisper.Client.Helpers
 
             var stream = await response.Content.ReadAsStreamAsync();
 
-            return await JsonSerializer.DeserializeAsync<IEnumerable<Chat>>(stream);
+            return await JsonSerializer.DeserializeAsync<IEnumerable<Chat>>(stream, options);
         }
 
         public async Task<IEnumerable<Message>> GetMessages(long channelId)
         {
-            var response = await client.GetAsync($"{baseUrl}/chat/message/{channelId}");
+            var response = await client.GetAsync($"{baseUrl}/message/{channelId}");
 
             if (!response.IsSuccessStatusCode) return null;
 
             var stream = await response.Content.ReadAsStreamAsync();
 
-            return (await JsonSerializer.DeserializeAsync<IEnumerable<Message>>(stream)).OrderBy(e => e.SentAt);
+            return (await JsonSerializer.DeserializeAsync<IEnumerable<Message>>(stream, options)).OrderBy(e => e.SentAt);
+        }
+
+        public async Task<Chat> GetUserInfo(string username)
+        {
+            var response = await client.GetAsync($"{baseUrl}/user/by-username/{username}");
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var stream = await response.Content.ReadAsStreamAsync();
+
+            return await JsonSerializer.DeserializeAsync<Chat>(stream, options);
+        }
+
+        public async Task<Chat> GetMyInfo()
+        {
+            var response = await client.GetAsync($"{baseUrl}/user/me");
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var stream = await response.Content.ReadAsStreamAsync();
+
+            return await JsonSerializer.DeserializeAsync<Chat>(stream, options);
+        }
+
+        public async Task<Message> SendMessage(Message message)
+        {
+            var content = new StringContent(JsonSerializer.Serialize(message), Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"{baseUrl}/message", content);
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var stream = await response.Content.ReadAsStreamAsync();
+
+            return await JsonSerializer.DeserializeAsync<Message>(stream, options);
         }
     }
 }

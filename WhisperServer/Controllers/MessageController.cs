@@ -12,24 +12,9 @@ namespace Whisper.Server.Controllers
     public class MessageController : ControllerBase
     {
         private readonly WhisperContext _context;
-        private readonly List<WebSocket> _webSockets;
         public MessageController(WhisperContext whisperContext, List<WebSocket> webSocketList)
         {
             _context = whisperContext;
-            _webSockets = webSocketList;
-        }
-
-        [HttpGet("/ws")]
-        public async Task GetStream()
-        {
-            if (!HttpContext.WebSockets.IsWebSocketRequest)
-            {
-                HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-            }
-
-            var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-
-            _webSockets.Add(webSocket);
         }
 
         [HttpPost]
@@ -69,9 +54,11 @@ namespace Whisper.Server.Controllers
             if (messageGroup != null)
                 return Ok(_context.Message.Where(e => e.ChannelId == channelId));
 
-            return Ok(_context.Message.Where(e =>
+            var messages = _context.Message.Where(e =>
             (e.Sender == user.UserId && e.ChannelId == channelId) ||
-            (e.Sender == messageUser.UserId && e.ChannelId == user.ChannelId)));
+            (e.Sender == messageUser.UserId && e.ChannelId == user.ChannelId)).OrderByDescending(e => e.SentAt);
+
+            return Ok(messages);
         }
     }
 }

@@ -24,12 +24,11 @@
     <materialDesign:Card x:Name="card"
                          UniformCornerRadius="15"
                          Margin="30"
-                         materialDesign:ShadowAssist.ShadowDepth="Depth5"
-                         KeyboardNavigation.TabNavigation="Contained">
-
-        <Grid KeyboardNavigation.TabNavigation="None">
+                         materialDesign:ShadowAssist.ShadowDepth="Depth5">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <materialDesign:ColorZone Mode="PrimaryMid"
@@ -53,11 +52,11 @@
 
             <materialDesign:Snackbar x:Name="MainSnackbar"
                                      MessageQueue="{materialDesign:MessageQueue}"
-                                     Grid.Row="1" />
+                                     Grid.Row="2" />
 
-            <Frame x:Name="landingFrame"
-                   Grid.Row="0"
-                   Margin="0,30,0,0"
+            <Frame FocusVisualStyle="{x:Null}"
+                   x:Name="landingFrame"
+                   Grid.Row="1"
                    NavigationUIVisibility="Hidden"
                    Source="/Pages/LoginPage.xaml"
                    VerticalAlignment="Bottom"></Frame>

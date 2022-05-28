@@ -18,7 +18,9 @@ namespace Whisper.Client.Models
         public string Username { get; set; }
         [JsonPropertyName("pubkey")]
         public string PubKey { get; set; }
-        
-        public RSA4096 RSA { get; set; }
+        [JsonPropertyName("channelid")]
+        public long ChannelId { get; set; }
+
+        public List<Message> Messages = new List<Message>();
     }
 }

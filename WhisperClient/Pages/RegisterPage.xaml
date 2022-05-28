@@ -13,7 +13,7 @@
       TextOptions.TextRenderingMode="Auto"
       FontFamily="{DynamicResource MaterialDesignFont}"
       d:DesignWidth="400"
-      Title="RegisterPage">
+      Title="RegisterPage" Loaded="Page_Loaded">
 
     <Grid>
         <StackPanel VerticalAlignment="Center"
@@ -62,7 +62,6 @@
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignFilledPasswordBox}"
                          KeyDown="textBox_KeyDown" />
-
 
             <Button Margin="0,15,0,0"
                     x:Name="registerButton"

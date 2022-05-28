@@ -28,6 +28,10 @@ namespace Whisper.Server.Controllers
         [Authorize]
         public ActionResult<User> GetUser(int userId)
         {
+            var currentUser = _context.FromIdentity(HttpContext.User);
+
+            if (currentUser.UserId == userId) return BadRequest();
+
             var user = _context.User.FirstOrDefault(e => e.UserId == userId);
 
             if (user == null) return NotFound();
@@ -39,7 +43,11 @@ namespace Whisper.Server.Controllers
         [Authorize]
         public ActionResult<User> GetUserByUsername(string username)
         {
-            var user = _context.User.FirstOrDefault(e => e.Username == username);
+            var currentUser = _context.FromIdentity(HttpContext.User);
+
+            if (currentUser.Username.ToUpper() == username.ToUpper()) return BadRequest();
+
+            var user = _context.User.FirstOrDefault(e => e.Username.ToUpper() == username.ToUpper());
 
             if (user == null) return NotFound();
 
@@ -50,7 +58,11 @@ namespace Whisper.Server.Controllers
         [Authorize]
         public ActionResult<User> GetUserByEmail(string email)
         {
-            var user = _context.User.FirstOrDefault(e => e.Email == email);
+            var currentUser = _context.FromIdentity(HttpContext.User);
+
+            if (currentUser.Email.ToUpper() == email.ToUpper()) return BadRequest();
+
+            var user = _context.User.FirstOrDefault(e => e.Email.ToUpper() == email.ToUpper());
 
             if (user == null) return NotFound();
 

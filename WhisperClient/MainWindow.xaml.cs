@@ -36,7 +36,10 @@ namespace Whisper.Client
             Snackbar.MessageQueue.DiscardDuplicates = true;
         }
 
-        public void ShowSnackbar(string Text) => Snackbar.MessageQueue.Enqueue(Text);
+        public void ShowSnackbar(string Text)
+        {
+            Snackbar.MessageQueue.Enqueue(Text, null, null, null, false, false, durationOverride: TimeSpan.FromSeconds(1));
+        }
 
         public void CenterWindow()
         {

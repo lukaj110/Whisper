@@ -68,5 +68,7 @@ namespace Whisper.Client.Pages
         {
             if(e.Key == Key.Enter && this.IsEnabled) loginButton_Click(sender, e);
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e) => txtUsername.Focus();
     }
 }

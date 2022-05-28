@@ -5,90 +5,218 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Whisper.Client.Pages"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:emoji="clr-namespace:Emoji.Wpf;assembly=Emoji.Wpf"
       mc:Ignorable="d"
-      d:DesignHeight="450"
-      Width="1000px"
-      d:DesignWidth="800"
+      Height="850px"
+      Width="1600px"
       Title="MainPage"
       Loaded="Page_Loaded">
     <materialDesign:DialogHost DialogTheme="Inherit">
-        <Grid Margin="16">
+        <Grid Margin="16"
+              x:Name="mainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <GroupBox Header="Chats"
                       Style="{StaticResource MaterialDesignCardGroupBox}"
                       Grid.Row="0"
                       Grid.Column="0"
-                      materialDesign:ColorZoneAssist.Mode="PrimaryMid" x:Name="chatBox">
+                      VerticalAlignment="Stretch"
+                      materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                      x:Name="chatBox">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <Grid>
                             <materialDesign:PackIcon Kind="ChatBubble"
                                                      Height="32"
                                                      Width="32"
                                                      VerticalAlignment="Center" />
 
-                            <TextBlock Margin="10,0,25,0"
-                                       VerticalAlignment="Center"
+                            <TextBlock VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"
                                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                        Text="{Binding}" />
 
                             <Button VerticalAlignment="Center"
                                     HorizontalAlignment="Right"
                                     Style="{StaticResource MaterialDesignIconForegroundButton}"
-                                    ToolTip="MaterialDesignIconButton"
                                     Width="32"
                                     Height="32"
                                     Click="Button_Click">
                                 <materialDesign:PackIcon Kind="Add" />
                             </Button>
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>
-                <ScrollViewer>
-                    <StackPanel>
-                    </StackPanel>
-                </ScrollViewer>
+                <ListBox x:Name="lbChats"
+                         Height="auto"
+                         SelectionChanged="lbChats_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Chip Content="{Binding Username}"
+                                                 Icon="{Binding Username[0]}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </GroupBox>
             <GroupBox Header="Group Chats"
                       Style="{StaticResource MaterialDesignCardGroupBox}"
-                      Grid.Row="1"
                       Grid.Column="0"
-                      Margin="0, 16, 0 , 0"
-                      materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+                      Grid.Row="1"
+                      Margin="0,16,0,0"
+                      materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                      VerticalAlignment="Stretch">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <Grid>
                             <materialDesign:PackIcon Kind="MessageGroup"
                                                      Height="32"
                                                      Width="32"
                                                      VerticalAlignment="Center" />
-                            <TextBlock Margin="8,0,8,0"
+                            <TextBlock HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
                                        Text="{Binding}" />
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </GroupBox.HeaderTemplate>
-                <ScrollViewer>
-                    <StackPanel>
-                    </StackPanel>
-                </ScrollViewer>
+                <ListBox x:Name="lbGroupChats"
+                         Height="auto">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Chip Content="{Binding Name}"
+                                                 Icon="{Binding Name[0]}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </GroupBox>
 
-            <TextBlock Grid.Row="0"
-                       Grid.Column="1"
-                       Grid.RowSpan="2"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="32">Select or open a new chat</TextBlock>
+            <GroupBox Style="{StaticResource MaterialDesignCardGroupBox}"
+                      Grid.Row="0"
+                      Margin="16, 0, 0, 0"
+                      Grid.Column="1"
+                      Grid.RowSpan="2"
+                      materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <materialDesign:PackIcon Kind="MessageTextFast"
+                                                     Height="32"
+                                                     Width="32"
+                                                     VerticalAlignment="Center" />
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}"
+                                           BasedOn="{StaticResource MaterialDesignSubtitle1TextBlock}">
+                                        <Setter Property="Text"
+                                                Value="{Binding ElementName=lbChats, Path=SelectedItem.Username}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=lbChats, Path=SelectedItem.Username.Length, FallbackValue=0, TargetNullValue=0}"
+                                                         Value="0">
+                                                <Setter Property="Text"
+                                                        Value="Select or open a new chat" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer VerticalAlignment="Stretch"
+                                  Grid.Row="0"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  Margin="0, 0, 0, 16">
+                        <ItemsControl x:Name="messagesControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <materialDesign:Card Foreground="{DynamicResource MaterialDesignDarkForeground}"
+                                                         MaxWidth="600px"
+                                                         Padding="8"
+                                                         Margin="8"
+                                                         UniformCornerRadius="6">
+
+                                        <materialDesign:Card.Style>
+                                            <Style TargetType="{x:Type materialDesign:Card}">
+                                                <Setter Property="HorizontalAlignment"
+                                                        Value="Right" />
+                                                <Setter Property="Background"
+                                                        Value="{DynamicResource SecondaryHueDarkBrush}" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Value="False">
+                                                        <DataTrigger.Binding>
+                                                            <MultiBinding>
+                                                                <MultiBinding.Converter>
+                                                                    <local:EqualityConverter />
+                                                                </MultiBinding.Converter>
+                                                                <Binding Path="DataContext.UserId"
+                                                                         ElementName="mainGrid" />
+                                                                <Binding Path="Sender" />
+                                                            </MultiBinding>
+                                                        </DataTrigger.Binding>
+                                                        <Setter Property="Background"
+                                                                Value="{DynamicResource PrimaryHueDarkBrush}" />
+                                                        <Setter Property="HorizontalAlignment"
+                                                                Value="Left" />
+
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </materialDesign:Card.Style>
+                                        <StackPanel>
+                                            <emoji:TextBlock TextWrapping="Wrap"
+                                                       TextAlignment="Justify"
+                                                       Text="{Binding Content}" FontSize="16" />
+                                            <TextBlock TextWrapping="Wrap"
+                                                       HorizontalAlignment="Right"
+                                                       Text="{Binding SentAt, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" />
+                                        </StackPanel>
+                                    </materialDesign:Card>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <TextBox Grid.Row="1"
+                             Grid.Column="0"
+                             VerticalAlignment="Top"
+                             TextWrapping="Wrap"
+                             HorizontalAlignment="Stretch"
+                             MaxLength="5000"
+                             Margin="8"
+                             VerticalScrollBarVisibility="Auto"
+                             materialDesign:HintAssist.Hint="Enter your message..."
+                             MaxHeight="50px"
+                             Foreground="White"
+                             FontSize="16"
+                             x:Name="txtMessage" AcceptsReturn="True" />
+
+                    <Button Grid.Row="1"
+                            IsDefault="True"
+                            Grid.Column="1"
+                            Style="{StaticResource MaterialDesignIconButton}"
+                            x:Name="sendBtn"
+                            Click="sendBtn_Click">
+                        <materialDesign:PackIcon Kind="Send" />
+                    </Button>
+                </Grid>
+            </GroupBox>
 
         </Grid>
     </materialDesign:DialogHost>

@@ -7,22 +7,42 @@ using System.Threading.Tasks;
 
 namespace Whisper.Crypto.Algorithms
 {
-    internal class AES256
+    public class AES256
     {
         private readonly Aes aes;
 
-        public AES256()
+        public AES256(byte[] key)
         {
             aes = Aes.Create();
 
-            aes.BlockSize = 256;
+            aes.BlockSize = 128;
 
             aes.KeySize = 256;
 
             aes.Mode = CipherMode.CBC;
+
+            aes.Key = key;
         }
 
-        public string Encrypt(string message, byte[] iv)
+        public string EncryptEcb(string message)
+        {
+            byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+
+            byte[] aesEncryptedMessage = aes.EncryptEcb(messageBytes, PaddingMode.PKCS7);
+
+            return Convert.ToBase64String(aesEncryptedMessage);
+        }
+
+        public string DecryptEcb(string encryptedMessage)
+        {
+            byte[] messageBytes = Convert.FromBase64String(encryptedMessage);
+
+            byte[] aesDecryptedMessage = aes.DecryptEcb(messageBytes, PaddingMode.PKCS7);
+
+            return Encoding.UTF8.GetString(aesDecryptedMessage);
+        }
+
+        public string EncryptCbc(string message, byte[] iv)
         {
             byte[] messageBytes = Encoding.UTF8.GetBytes(message);
 
@@ -31,7 +51,7 @@ namespace Whisper.Crypto.Algorithms
             return Convert.ToBase64String(aesEncryptedMessage);
         }
 
-        public string Decrypt(string encryptedMessage, byte[] iv)
+        public string DecryptCbc(string encryptedMessage, byte[] iv)
         {
             byte[] messageBytes = Convert.FromBase64String(encryptedMessage);
 

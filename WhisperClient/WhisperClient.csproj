@@ -10,14 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Whisper.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Whisper.png" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Emoji.Wpf" Version="0.3.3" />
     <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
   </ItemGroup>
 
