@@ -46,7 +46,7 @@
                             FontSize="16"
                             materialDesign:ButtonAssist.CornerRadius="0,15,0,0"
                             Click="exitButton_Click"
-                            Foreground="{DynamicResource MaterialDesignLightForeground}" />
+                            Foreground="{DynamicResource MaterialDesignDarkForeground}" />
                 </Grid>
             </materialDesign:ColorZone>
 

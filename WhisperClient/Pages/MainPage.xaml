@@ -28,12 +28,12 @@
                       Grid.Row="0"
                       Grid.Column="0"
                       VerticalAlignment="Stretch"
-                      materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                      materialDesign:ColorZoneAssist.Mode="SecondaryMid"
                       x:Name="chatBox">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
                         <Grid>
-                            <materialDesign:PackIcon Kind="ChatBubble"
+                            <materialDesign:PackIcon Kind="ChatBubbleOutline"
                                                      Height="32"
                                                      Width="32"
                                                      VerticalAlignment="Center" />
@@ -60,7 +60,8 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <materialDesign:Chip Content="{Binding Username}"
-                                                 Icon="{Binding Username[0]}" />
+                                                 Icon="{Binding Username[0]}"
+                                                 IconBackground="{StaticResource SecondaryHueMidBrush}" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -70,7 +71,7 @@
                       Grid.Column="0"
                       Grid.Row="1"
                       Margin="0,16,0,0"
-                      materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                      materialDesign:ColorZoneAssist.Mode="SecondaryMid"
                       VerticalAlignment="Stretch">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
@@ -102,11 +103,11 @@
                       Margin="16, 0, 0, 0"
                       Grid.Column="1"
                       Grid.RowSpan="2"
-                      materialDesign:ColorZoneAssist.Mode="PrimaryMid">
+                      materialDesign:ColorZoneAssist.Mode="SecondaryMid">
                 <GroupBox.HeaderTemplate>
                     <DataTemplate>
                         <Grid>
-                            <materialDesign:PackIcon Kind="MessageTextFast"
+                            <materialDesign:PackIcon Kind="MessageProcessingOutline"
                                                      Height="32"
                                                      Width="32"
                                                      VerticalAlignment="Center" />
@@ -158,7 +159,7 @@
                                                 <Setter Property="HorizontalAlignment"
                                                         Value="Right" />
                                                 <Setter Property="Background"
-                                                        Value="{DynamicResource SecondaryHueDarkBrush}" />
+                                                        Value="{DynamicResource MyChatBrush}" />
                                                 <Style.Triggers>
                                                     <DataTrigger Value="False">
                                                         <DataTrigger.Binding>
@@ -172,7 +173,7 @@
                                                             </MultiBinding>
                                                         </DataTrigger.Binding>
                                                         <Setter Property="Background"
-                                                                Value="{DynamicResource PrimaryHueDarkBrush}" />
+                                                                Value="{DynamicResource ChatBrush}" />
                                                         <Setter Property="HorizontalAlignment"
                                                                 Value="Left" />
 
@@ -182,8 +183,9 @@
                                         </materialDesign:Card.Style>
                                         <StackPanel>
                                             <emoji:TextBlock TextWrapping="Wrap"
-                                                       TextAlignment="Justify"
-                                                       Text="{Binding Content}" FontSize="16" />
+                                                             TextAlignment="Justify"
+                                                             Text="{Binding Content}"
+                                                             FontSize="16" />
                                             <TextBlock TextWrapping="Wrap"
                                                        HorizontalAlignment="Right"
                                                        Text="{Binding SentAt, StringFormat='{}{0:dd/MM/yyyy HH:mm}'}" />
@@ -205,7 +207,8 @@
                              MaxHeight="50px"
                              Foreground="White"
                              FontSize="16"
-                             x:Name="txtMessage" AcceptsReturn="True" />
+                             x:Name="txtMessage"
+                             AcceptsReturn="True" />
 
                     <Button Grid.Row="1"
                             IsDefault="True"

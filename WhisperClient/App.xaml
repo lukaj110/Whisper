@@ -8,10 +8,23 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <materialDesign:BundledTheme BaseTheme="Dark"
-                                             PrimaryColor="Cyan"
-                                             SecondaryColor="Teal" />
+                                             PrimaryColor="Indigo" SecondaryColor="Blue" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="SecondaryHueLightBrush"
+                             Color="#99A0FF" />
+            <SolidColorBrush x:Key="SecondaryHueLightForegroundBrush"
+                             Color="White" />
+            <SolidColorBrush x:Key="SecondaryHueMidBrush"
+                             Color="#757DE8" />
+            <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush"
+                             Color="White" />
+            <SolidColorBrush x:Key="ChatBrush"
+                             Color="#9C4698" />
+            <SolidColorBrush x:Key="MyChatBrush"
+                             Color="#619C46" />
+            <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush"
+                             Color="White" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

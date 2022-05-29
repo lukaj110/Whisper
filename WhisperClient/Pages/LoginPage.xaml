@@ -27,6 +27,7 @@
                      FontSize="18"
                      materialDesign:HintAssist.Hint="Username"
                      BorderThickness="2"
+                     materialDesign:HintAssist.Foreground="{StaticResource SecondaryHueLightBrush}"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
                      Style="{StaticResource MaterialDesignFilledTextBox}"
                      KeyDown="textBox_KeyDown" />
@@ -38,6 +39,7 @@
                          FontSize="18"
                          materialDesign:HintAssist.Hint="Password"
                          BorderThickness="2"
+                         materialDesign:HintAssist.Foreground="{StaticResource SecondaryHueLightBrush}"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignFilledPasswordBox}"
                          KeyDown="textBox_KeyDown" />

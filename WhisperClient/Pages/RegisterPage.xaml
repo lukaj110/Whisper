@@ -28,6 +28,7 @@
                      FontSize="18"
                      materialDesign:HintAssist.Hint="Username"
                      BorderThickness="2"
+                     materialDesign:HintAssist.Foreground="{StaticResource SecondaryHueLightBrush}"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
                      Style="{StaticResource MaterialDesignFilledTextBox}"
                      KeyDown="textBox_KeyDown" />
@@ -36,6 +37,7 @@
                      x:Name="txtEmail"
                      Width="300"
                      FontSize="18"
+                     materialDesign:HintAssist.Foreground="{StaticResource SecondaryHueLightBrush}"
                      materialDesign:HintAssist.Hint="Email"
                      BorderThickness="2"
                      BorderBrush="{DynamicResource MaterialDesignDivider}"
@@ -49,6 +51,7 @@
                          FontSize="18"
                          materialDesign:HintAssist.Hint="Password"
                          BorderThickness="2"
+                         materialDesign:HintAssist.Foreground="{StaticResource SecondaryHueLightBrush}"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignFilledPasswordBox}"
                          KeyDown="textBox_KeyDown" />
@@ -59,6 +62,7 @@
                          FontSize="18"
                          materialDesign:HintAssist.Hint="Confirm Password"
                          BorderThickness="2"
+                         materialDesign:HintAssist.Foreground="{StaticResource SecondaryHueLightBrush}"
                          BorderBrush="{DynamicResource MaterialDesignDivider}"
                          Style="{StaticResource MaterialDesignFilledPasswordBox}"
                          KeyDown="textBox_KeyDown" />
