@@ -39,6 +39,8 @@ namespace Whisper.Client.Pages
 
             progressBar.Visibility = Visibility.Visible;
 
+            mainWindow.apiHelper.dh = new();
+
             var registerStatus = await mainWindow.apiHelper.Register(txtEmail.Text, txtUsername.Text, txtPassword.Password, mainWindow.apiHelper.dh.PublicKey);
 
             switch (registerStatus)

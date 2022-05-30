@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Whisper.Crypto.Algorithms
 {
@@ -20,6 +21,8 @@ namespace Whisper.Crypto.Algorithms
             {
                 hash += theByte.ToString("x2");
             }
+
+            Debug.WriteLine(hash);
 
             return hash;
         }

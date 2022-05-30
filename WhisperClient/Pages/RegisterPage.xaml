@@ -76,6 +76,7 @@
                     materialDesign:ButtonAssist.CornerRadius="10"
                     FontSize="18"
                     Content="Create account"
+                    Foreground="{StaticResource SecondaryHueDarkForegroundBrush}"
                     Click="registerButton_Click"></Button>
 
 

@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Whisper.Client.Models;
 using Whisper.Client.UserControls;
 using Whisper.Crypto.Algorithms;
@@ -36,6 +37,8 @@ namespace Whisper.Client.Pages
 
         private Chat me;
 
+        DispatcherTimer dispatcherTimer = new DispatcherTimer();
+
         public MainPage()
         {
             InitializeComponent();
@@ -43,6 +46,37 @@ namespace Whisper.Client.Pages
             lbChats.ItemsSource = chats;
 
             messagesControl.ItemsSource = messages;
+
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(2);
+
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
+        }
+
+        private async void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            var newChatList = (await mainWindow.apiHelper.GetChats()).Where(e => !chats.Any(c => c.UserId == e.UserId));
+
+            foreach (var chat in newChatList) chats.Add(chat);
+
+            var newMessages = (await mainWindow.apiHelper.GetAllMessages()).Where(e => !chats.SelectMany(c => c.Messages).Any(m => m.MessageId == e.MessageId));
+
+            foreach (var message in newMessages)
+            {
+                Debug.WriteLine(JsonSerializer.Serialize(message));
+
+                var user = message.ChannelId == me.ChannelId
+                    ? chats.Single(e => e.UserId == message.Sender)
+                    : chats.Single(e => e.ChannelId == message.ChannelId);
+
+                message.Content = user.Aes.DecryptEcb(message.Content);
+
+                user.Messages.Add(message);
+
+                if (lbChats.SelectedItem != null && ((Chat)lbChats.SelectedItem).UserId == user.UserId)
+                    messages.Add(message);
+            }
+
+            if (newMessages.Count() > 0) chatScrollViewer.ScrollToEnd();
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -57,11 +91,11 @@ namespace Whisper.Client.Pages
 
                 var key = mainWindow.apiHelper.dh.DeriveKey(Convert.FromBase64String(chat.PubKey));
 
-                AES256 aes = new(Encoding.UTF8.GetBytes(SHA512.Hash(Convert.ToBase64String(key))[..32]));
+                chat.Aes = new(Encoding.UTF8.GetBytes(SHA512.Hash(Convert.ToBase64String(key))[..32]));
 
                 foreach (var msg in msgs)
                 {
-                    msg.Content = aes.DecryptEcb(msg.Content);
+                    msg.Content = chat.Aes.DecryptEcb(msg.Content);
                     chat.Messages.Add(msg);
                 }
 
@@ -71,23 +105,40 @@ namespace Whisper.Client.Pages
             me = await mainWindow.apiHelper.GetMyInfo();
 
             mainGrid.DataContext = me;
+
+            dispatcherTimer.Start();
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            dispatcherTimer.Stop();
+
             var view = new AddChatDialog();
 
             var result = (bool)await DialogHost.Show(view);
 
-            if (!result) return;
+            if (!result)
+            {
+                dispatcherTimer.Start();
 
-            if (view.txtUsername == null || string.IsNullOrWhiteSpace(view.txtUsername.Text)) return;
+                return;
+            }
+
+            if (view.txtUsername == null || string.IsNullOrWhiteSpace(view.txtUsername.Text))
+            {
+                dispatcherTimer.Start();
+
+                return;
+            }
 
             var user = await mainWindow.apiHelper.GetUserInfo(view.txtUsername.Text);
 
             if (user == null)
             {
                 mainWindow.ShowSnackbar("Could not add user.");
+
+                dispatcherTimer.Start();
+
                 return;
             }
 
@@ -103,13 +154,22 @@ namespace Whisper.Client.Pages
                 messages.Clear();
 
                 chat.Messages.ForEach(m => messages.Add(m));
+
+                chatScrollViewer.ScrollToEnd();
             }
         }
 
         private async void sendBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (lbChats.SelectedItem == null || string.IsNullOrWhiteSpace(txtMessage.Text)) return;
-            
+            dispatcherTimer.Stop();
+
+            if (lbChats.SelectedItem == null || string.IsNullOrWhiteSpace(txtMessage.Text))
+            {
+                dispatcherTimer.Start();
+
+                return;
+            };
+
             var chat = (Chat)lbChats.SelectedItem;
 
             var key = mainWindow.apiHelper.dh.DeriveKey(Convert.FromBase64String(chat.PubKey));
@@ -125,13 +185,30 @@ namespace Whisper.Client.Pages
 
             var message = await mainWindow.apiHelper.SendMessage(msg);
 
-            message.Content = aes.DecryptEcb(message.Content);
+            if (message != null)
+            {
+                message.Content = aes.DecryptEcb(message.Content);
 
-            chat.Messages.Add(message);
+                chat.Messages.Add(message);
 
-            messages.Add(message);
+                messages.Add(message);
 
-            txtMessage.Clear();
+                txtMessage.Clear();
+
+                chatScrollViewer.ScrollToEnd();
+            }
+
+            dispatcherTimer.Start();
+        }
+
+        private void txtMessage_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && Keyboard.Modifiers != ModifierKeys.Shift)
+            {
+                sendBtn_Click(sender, e);
+
+                e.Handled = true;
+            }
         }
     }
 

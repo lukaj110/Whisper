@@ -27,10 +27,21 @@ namespace Whisper.Crypto.Algorithms
         }
 
         public void ExportKeys(string path)
-            => File.WriteAllText(Path.Combine(path, "DH.whisper"), PrivateKey);
+            => File.WriteAllText(path, PrivateKey);
 
         public void ImportKeys(string path)
-            => ImportKeyPair(File.ReadAllText(Path.Combine(path, "DH.whisper")));
+            => ImportKeyPair(File.ReadAllText(path));
+
+        public void ExportNewKeys(string username)
+        {
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Whisper");
+
+            var filePath = Path.Combine(path, $"DH_{SHA512.Hash(username.ToUpper())}.whisper");
+
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
+            if (!File.Exists(filePath)) ExportKeys(filePath);
+        }
 
         public byte[] DeriveKey(byte[] otherKey)
         {

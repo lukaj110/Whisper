@@ -21,6 +21,8 @@ namespace Whisper.Client.Models
         [JsonPropertyName("channelid")]
         public long ChannelId { get; set; }
 
+        public AES256 Aes = null;
+
         public List<Message> Messages = new List<Message>();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -29,8 +28,6 @@ namespace Whisper.Client.Helpers
             client = new HttpClient();
 
             this.baseUrl = baseUrl;
-
-            dh = CryptoHelper.InitializeKeys();
         }
 
         public async Task<StatusCode> Register(string email, string username, string password, string pubKey)
@@ -46,6 +43,8 @@ namespace Whisper.Client.Helpers
                 key = await response.Content.ReadAsStringAsync();
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
+
+                dh.ExportNewKeys(username);
 
                 return StatusCode.OK;
             }
@@ -68,6 +67,8 @@ namespace Whisper.Client.Helpers
                 key = await response.Content.ReadAsStringAsync();
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", key);
+
+                dh = CryptoHelper.InitializeKeys(username);
 
                 return StatusCode.OK;
             }
@@ -96,8 +97,20 @@ namespace Whisper.Client.Helpers
 
             var stream = await response.Content.ReadAsStreamAsync();
 
-            return (await JsonSerializer.DeserializeAsync<IEnumerable<Message>>(stream, options)).OrderBy(e => e.SentAt);
+            return (await JsonSerializer.DeserializeAsync<IEnumerable<Message>>(stream, options));
         }
+
+        public async Task<IEnumerable<Message>> GetAllMessages()
+        {
+            var response = await client.GetAsync($"{baseUrl}/message/all");
+
+            if (!response.IsSuccessStatusCode) return null;
+
+            var stream = await response.Content.ReadAsStreamAsync();
+
+            return (await JsonSerializer.DeserializeAsync<IEnumerable<Message>>(stream, options));
+        }
+
 
         public async Task<Chat> GetUserInfo(string username)
         {

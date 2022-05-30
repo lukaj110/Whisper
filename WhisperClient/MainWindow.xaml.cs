@@ -29,7 +29,7 @@ namespace Whisper.Client
         {
             InitializeComponent();
 
-            apiHelper = new APIHelper("https://localhost:7219/api");
+            apiHelper = new APIHelper("https://localhost:5001/api");
 
             Snackbar = MainSnackbar;
 
@@ -46,7 +46,7 @@ namespace Whisper.Client
             double screenWidth = SystemParameters.PrimaryScreenWidth;
             double screenHeight = SystemParameters.PrimaryScreenHeight;
             double windowWidth = this.Width;
-            double windowHeight = this.Height;
+            double windowHeight = this.Height + 100;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = (screenHeight / 2) - (windowHeight / 2);
         }

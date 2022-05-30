@@ -9,6 +9,8 @@ namespace Whisper.Client.Models
 {
     public class Message
     {
+        [JsonPropertyName("messageid")]
+        public int MessageId { get; set; }
         [JsonPropertyName("content")]
         public string Content { get; set; }
         [JsonPropertyName("sentat")]

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
 using Whisper.DataManager.Models;
 using Whisper.DataManager.RequestModels;
@@ -56,7 +57,20 @@ namespace Whisper.Server.Controllers
 
             var messages = _context.Message.Where(e =>
             (e.Sender == user.UserId && e.ChannelId == channelId) ||
-            (e.Sender == messageUser.UserId && e.ChannelId == user.ChannelId)).OrderByDescending(e => e.SentAt);
+            (e.Sender == messageUser.UserId && e.ChannelId == user.ChannelId)).OrderBy(e => e.SentAt);
+
+            return Ok(messages);
+        }
+
+        [HttpGet("all")]
+        [Authorize]
+        public ActionResult GetAllMessages()
+        {
+            var user = _context.FromIdentity(HttpContext.User);
+
+            var messages = _context.Message
+                                   .Where(e => e.Sender == user.UserId || e.ChannelId == user.ChannelId)
+                                   .OrderBy(e => e.SentAt);
 
             return Ok(messages);
         }

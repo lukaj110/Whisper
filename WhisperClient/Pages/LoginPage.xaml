@@ -54,6 +54,7 @@
                     materialDesign:ButtonAssist.CornerRadius="10"
                     FontSize="18"
                     Content="Log in"
+                    Foreground="{StaticResource SecondaryHueDarkForegroundBrush}"
                     Click="loginButton_Click"></Button>
 
 
