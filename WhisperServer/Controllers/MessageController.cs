@@ -37,7 +37,7 @@ namespace Whisper.Server.Controllers
 
             _context.SaveChanges();
 
-            return Ok(new { msg.Content, msg.SentAt, msg.Checksum, msg.Sender, msg.ChannelId });
+            return Ok(new { msg.MessageId, msg.Content, msg.SentAt, msg.Checksum, msg.Sender, msg.ChannelId });
         }
 
         [HttpGet("{channelId}")]

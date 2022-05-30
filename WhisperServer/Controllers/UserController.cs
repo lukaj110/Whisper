@@ -14,9 +14,6 @@ namespace Whisper.Server.Controllers
 
         public UserController(WhisperContext whisperContext) => _context = whisperContext;
 
-        [HttpGet]
-        public ActionResult<IEnumerable<User>> GetUsers() => Ok(_context.User.AsEnumerable());
-
         [HttpGet("me")]
         [Authorize]
         public ActionResult<User> Me()

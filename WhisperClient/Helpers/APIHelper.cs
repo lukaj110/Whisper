@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using Whisper.Client.Models;
 using Whisper.Crypto.Algorithms;
 

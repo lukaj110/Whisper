@@ -1,22 +1,16 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using Whisper.Client.Models;
 using Whisper.Client.UserControls;
@@ -39,6 +33,7 @@ namespace Whisper.Client.Pages
 
         DispatcherTimer dispatcherTimer = new DispatcherTimer();
 
+
         public MainPage()
         {
             InitializeComponent();
@@ -47,7 +42,7 @@ namespace Whisper.Client.Pages
 
             messagesControl.ItemsSource = messages;
 
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(2);
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
 
             dispatcherTimer.Tick += DispatcherTimer_Tick;
         }
@@ -56,7 +51,14 @@ namespace Whisper.Client.Pages
         {
             var newChatList = (await mainWindow.apiHelper.GetChats()).Where(e => !chats.Any(c => c.UserId == e.UserId));
 
-            foreach (var chat in newChatList) chats.Add(chat);
+            foreach (var chat in newChatList)
+            {
+                var key = mainWindow.apiHelper.dh.DeriveKey(Convert.FromBase64String(chat.PubKey));
+
+                chat.Aes = new(Encoding.UTF8.GetBytes(SHA512.Hash(Convert.ToBase64String(key))[..32]));
+
+                chats.Add(chat);
+            }
 
             var newMessages = (await mainWindow.apiHelper.GetAllMessages()).Where(e => !chats.SelectMany(c => c.Messages).Any(m => m.MessageId == e.MessageId));
 
@@ -76,7 +78,12 @@ namespace Whisper.Client.Pages
                     messages.Add(message);
             }
 
-            if (newMessages.Count() > 0) chatScrollViewer.ScrollToEnd();
+            if (newMessages.Count() > 0)
+            {
+                SystemSounds.Beep.Play();
+
+                chatScrollViewer.ScrollToEnd();
+            }
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
@@ -96,6 +103,7 @@ namespace Whisper.Client.Pages
                 foreach (var msg in msgs)
                 {
                     msg.Content = chat.Aes.DecryptEcb(msg.Content);
+       
                     chat.Messages.Add(msg);
                 }
 
@@ -142,6 +150,10 @@ namespace Whisper.Client.Pages
                 return;
             }
 
+            var key = mainWindow.apiHelper.dh.DeriveKey(Convert.FromBase64String(user.PubKey));
+
+            user.Aes = new(Encoding.UTF8.GetBytes(SHA512.Hash(Convert.ToBase64String(key))[..32]));
+
             chats.Add(user);
         }
 
@@ -149,6 +161,8 @@ namespace Whisper.Client.Pages
         {
             if (lbChats.SelectedItem != null)
             {
+                if (!txtMessage.IsEnabled) txtMessage.IsEnabled = true;
+
                 var chat = (Chat)lbChats.SelectedItem;
 
                 messages.Clear();
@@ -172,14 +186,10 @@ namespace Whisper.Client.Pages
 
             var chat = (Chat)lbChats.SelectedItem;
 
-            var key = mainWindow.apiHelper.dh.DeriveKey(Convert.FromBase64String(chat.PubKey));
-
-            AES256 aes = new(Encoding.UTF8.GetBytes(SHA512.Hash(Convert.ToBase64String(key))[..32]));
-
             var msg = new Message
             {
                 ChannelId = chat.ChannelId,
-                Content = aes.EncryptEcb(txtMessage.Text),
+                Content = chat.Aes.EncryptEcb(txtMessage.Text),
                 Checksum = SHA512.Hash(txtMessage.Text),
             };
 
@@ -187,7 +197,7 @@ namespace Whisper.Client.Pages
 
             if (message != null)
             {
-                message.Content = aes.DecryptEcb(message.Content);
+                message.Content = chat.Aes.DecryptEcb(message.Content);
 
                 chat.Messages.Add(message);
 
