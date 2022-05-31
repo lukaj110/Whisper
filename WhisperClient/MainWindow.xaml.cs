@@ -29,7 +29,7 @@ namespace Whisper.Client
         {
             InitializeComponent();
 
-            apiHelper = new APIHelper("http://46.101.105.191:5001/api");
+            apiHelper = new APIHelper("https://localhost:5001/api");
 
             Snackbar = MainSnackbar;
 
